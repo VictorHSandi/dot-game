@@ -1,15 +1,64 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, Pressable } from 'react-native';
+import React, { useState } from "react";
 import dot from './assets/dots.png'
 
 export default function App() {
+const [board, setMap] = useState([
+  ['f', 'e', 'f', 'f', ''], // row 1 temp test size
+  ['f', 'f', 'e', '', ''], // row 2
+  ['', 'e', '', 'e', 'f'], // row 3
+  ['', 'f', 'e', 'f', ''], // row 4
+  ['e', '', '', '', ''], // row 4
+]);
+
+const [selectDot] = useState([
+  ['f','e']
+]);
+
+const [currentDot, setCurrentDot] = useState('f');
+
+const onPress = (rowIndex, colIndex) => {
+  
+
+  setMap((existingMap) =>{
+    const updatedMap = [...existingMap];
+    updatedMap[rowIndex][colIndex] = currentDot;
+    return updatedMap;
+  });
+};
+
+const selectorPress = (currentDot) => {
+  setCurrentDot(currentDot == "0" ? "f" : "e");
+  console.warn(currentDot);
+};
+
   return (
     <View style={styles.container}>
-      <View style={styles.map} >
-        <View style={styles.eoutDot}>
-          <View style ={styles.einDot}/>
-        </View>
-        <View style={styles.filledDot}/>
+      <Text style={styles.text}>Dot Game</Text>
+      <View style={styles.map}>
+        {board.map((row, rowIndex) => (
+          <View style={styles.row}>
+            {row.map((cell, colIndex) => (
+              <Pressable onPress={() => onPress(rowIndex, colIndex)} style={styles.cell}>
+                {cell == 'f' && <View style={styles.filledDot}/>}
+                {cell == 'e' && <View style={styles.emptyDot}/>}
+              </Pressable>
+            ))}
+          </View>
+        ))}
+      </View>
+      <View style={styles.selector}>
+      {selectDot.map((row) => (
+          <View style={styles.srow}>
+            {row.map((cell, colIndex) => (
+              <Pressable onPress={() => selectorPress(colIndex)} style={styles.scell}>
+                {cell == 'f' && <View style={styles.filledDot}/>}
+                {cell == 'e' && <View style={styles.emptyDot}/>}
+              </Pressable>
+            ))}
+          </View>
+        ))}
       </View>
       <StatusBar style="auto" />
     </View>
@@ -22,48 +71,70 @@ const styles = StyleSheet.create({
     backgroundColor: '#3a6b64',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 15,
+  },
+  text: {
+    fontSize: 40, 
+    color: 'white',
   },
   map: {
     borderWidth: 1,
-    borderColor: 'white',
+    borderColor: 'teal',
     width: '90%',
     aspectRatio: 1,
+    backgroundColor: '#b2d8d8',    
   },
-  eoutDot: {
-    position: 'absolute',
-
-    left: 0 * 60,
-    top: 1 * 60,
-
-    width: 50,
-    height: 50,
-    backgroundColor: 'white',
-    borderRadius: 50,
+  row: {
+    flex: 1,
+    flexDirection: "row",
+  },
+  cell: {
+    width: '100%',
+    height: '100%',
+    flex: 1,
+    borderColor: "teal",
+    borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 5,
   },
-  einDot: {
-    width: 42,
-    height: 42,
-    backgroundColor: '#dbdbdb',
-    borderRadius: 50,
+  srow: {
+    flex: 1,
+    flexDirection: "row",
   },
-  filledDot: {
-    position: 'absolute',
-
-    left: 1 * 60,
-    top: 1 * 60,
-
-    width: 50,
-    height: 50,
-    borderRadius: 50,
+  scell: {
+    width: '100%',
+    height: '100%',
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    margin: 5,
+  }, 
+  emptyDot: {
+    width: '100%',
+    height: '100%',
+    borderRadius: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
 
     borderWidth: 4,
     borderColor: 'white',
+    backgroundColor: '#66b2b2'
+  },
+  filledDot: {
+    width: '100%',
+    height: '100%',
+    borderRadius: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    borderWidth: 4,
+    borderColor: 'white',
+    backgroundColor: '#006666'
+  },
+  selector: {
+    width: '30%',
+    height: '7%',
+    borderColor: 'white',
+    borderRadius: '100%',
+    borderWidth: 1,
+    top: '2%'
   },
 });

@@ -1,9 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Pressable, Button } from 'react-native';
 import React, { useState } from "react";
+import { resetBoard } from "./Board.js"
 import dot from './assets/dots.png'
 
+
 export default function App() {
+//default board state
 const [board, setMap] = useState([
   ['f', 'e', 'f', 'f', ''], // row 1 temp test size
   ['f', 'f', 'e', '', ''], // row 2
@@ -19,7 +22,6 @@ const [selectDot] = useState([
 const [currentDot, setCurrentDot] = useState('f');
 
 const onPress = (rowIndex, colIndex) => {
-  
 
   setMap((existingMap) =>{
     const updatedMap = [...existingMap];
@@ -37,6 +39,7 @@ const selectorPress = (currentDot) => {
     <View style={styles.container}>
       <Text style={styles.text}>Dot Game</Text>
       <View style={styles.map}>
+      {/* board stuff */}
         {board.map((row, rowIndex) => (
           <View style={styles.row}>
             {row.map((cell, colIndex) => (
@@ -60,8 +63,19 @@ const selectorPress = (currentDot) => {
           </View>
         ))}
       </View>
+      
+      {/* reset button for testing/clearing the board!! */}
+      <View style={styles.buttonContainer}>
+        <Pressable 
+        onPress={console.log("Reset")}
+        style={styles.button}>
+          <Text style={styles.smallText}>Reset</Text>
+        </Pressable>
+      </View>
       <StatusBar style="auto" />
+      
     </View>
+    
   );
 }
 
@@ -75,6 +89,10 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 40, 
     color: 'white',
+  },
+  smallText: {
+    fontSize: 35,
+    color: 'white'
   },
   map: {
     borderWidth: 1,
@@ -137,4 +155,16 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     top: '2%'
   },
+  button: {
+    
+    backgroundColor: '#66b2b2',
+    borderColor: '#006666',
+    borderWidth: 3,
+    justifyContent: 'end'
+    
+  },
+  buttonContainer: {
+    padding: 20,
+    margin:20,
+  }
 });

@@ -1,7 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Pressable, Button } from 'react-native';
+import { StyleSheet, Text, View, Pressable } from 'react-native';
 import React, { useState } from "react";
-import { resetBoard } from "./Board.js"
 import dot from './assets/dots.png'
 
 
@@ -14,6 +13,18 @@ const [board, setMap] = useState([
   ['', 'f', 'e', 'f', ''], // row 4
   ['e', '', '', '', ''], // row 4
 ]);
+
+const reset = () => {
+  setMap(() => {
+    return([
+      ['f', 'e', 'f', 'f', ''], // row 1 temp test size
+  ['f', 'f', 'e', '', ''], // row 2
+  ['', 'e', '', 'e', 'f'], // row 3
+  ['', 'f', 'e', 'f', ''], // row 4
+  ['e', '', '', '', ''], // row 4
+    ]);
+  });
+};
 
 const [selectDot] = useState([
   ['f','e']
@@ -28,6 +39,7 @@ const onPress = (rowIndex, colIndex) => {
     updatedMap[rowIndex][colIndex] = currentDot;
     return updatedMap;
   });
+  
 };
 
 const selectorPress = (currentDot) => {
@@ -63,17 +75,15 @@ const selectorPress = (currentDot) => {
           </View>
         ))}
       </View>
-      
       {/* reset button for testing/clearing the board!! */}
       <View style={styles.buttonContainer}>
         <Pressable 
-        onPress={console.log("Reset")}
+        onPress={() => reset()} 
         style={styles.button}>
           <Text style={styles.smallText}>Reset</Text>
         </Pressable>
       </View>
       <StatusBar style="auto" />
-      
     </View>
     
   );

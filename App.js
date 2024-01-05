@@ -3,6 +3,11 @@ import { StyleSheet, Text, View, Pressable } from 'react-native';
 import React, { useState } from "react";
 import dot from './assets/dots.png'
 
+//putting it outside App scope in case we want to make
+//a separate component for the board/dot pieces
+function Board({playerInput}) {
+  return ();
+}
 
 export default function App() {
 //default board state

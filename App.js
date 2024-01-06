@@ -3,33 +3,62 @@ import { StyleSheet, Text, View, Pressable } from 'react-native';
 import React, { useState } from "react";
 import dot from './assets/dots.png'
 
-//putting it outside App scope in case we want to make
-//a separate component for the board/dot pieces
-function Board({playerInput}) {
-  return ();
-}
-
 export default function App() {
+  
+  function checkSolution(board) {
+    for(let row = 0; row < board.length; row++) {
+      for (let col = 0; col < board[row].length; col++) {
+        if(board[row][col] == '') {
+          board[row][col] = 'f'; //dark dot
+          if(isValid(board, row, col, board.length/2,  board[row].length / 2) && checkSolution(board)) {
+            return true;
+          }
+          board[row][col] = ''; //backtrack
+
+          board[row][col] = 'e'; //light dot
+          if(isValid(board, row, col, board.length/2,  board[row].length / 2) && checkSolution(board)) {
+            return true;
+          }
+          board[row][col] = ''; //backtrack
+          return false;
+        }
+      }
+    }
+    return true;
+  };
+
+  function isValid(board, row, col, numDark, numLight) {
+    //check row has equal dots
+    if(board[row].filter(cell => cell === 'f').length > numDark ||
+      board[row].filter(cell => cell === 'e').length > numLight) {
+        return false;
+      }
+    //check column has equal dots
+    if(board.map(row => row[col]).filter(cell => cell === 'f').length > numDark ||
+    board.map(row => row[col]).filter(cell => cell === 'e').length > numLight) {
+      return false;
+    }
+    return true;
+  };
+
 //default board state
 const [board, setMap] = useState([
-  ['f', 'e', 'f', 'f', ''], // row 1 temp test size
-  ['f', 'f', 'e', '', ''], // row 2
-  ['', 'e', '', 'e', 'f'], // row 3
-  ['', 'f', 'e', 'f', ''], // row 4
-  ['e', '', '', '', ''], // row 4
+      ['f', 'f', 'e', 'e'], // row 1 temp test size
+      ['f', 'f', 'e', ''], // row 2
+      ['', 'e', '', ''], // row 3
+      ['', '', 'f', 'f'], // row 4
 ]);
 
 const reset = () => {
   setMap(() => {
     return([
-      ['f', 'e', 'f', 'f', ''], // row 1 temp test size
-  ['f', 'f', 'e', '', ''], // row 2
-  ['', 'e', '', 'e', 'f'], // row 3
-  ['', 'f', 'e', 'f', ''], // row 4
-  ['e', '', '', '', ''], // row 4
+      ['f', 'f', 'e', 'e'], // row 1 temp test size
+      ['f', 'f', 'e', ''], // row 2
+      ['', 'e', '', ''], // row 3
+      ['', '', 'f', 'f'], // row 4
     ]);
   });
-};
+};  
 
 const [selectDot] = useState([
   ['f','e']
@@ -42,7 +71,16 @@ const onPress = (rowIndex, colIndex) => {
   setMap((existingMap) =>{
     const updatedMap = [...existingMap];
     updatedMap[rowIndex][colIndex] = currentDot;
+    if(checkSolution(updatedMap.slice()) == true ) {
+      console.log("Correct")
+    }
+    else {
+      console.log("Incorrect")
+    }
+    console.log(board);
     return updatedMap;
+
+    
   });
   
 };
@@ -56,17 +94,16 @@ const selectorPress = (currentDot) => {
     <View style={styles.container}>
       <Text style={styles.text}>Dot Game</Text>
       <View style={styles.map}>
-      {/* board stuff */}
-        {board.map((row, rowIndex) => (
-          <View style={styles.row}>
-            {row.map((cell, colIndex) => (
-              <Pressable onPress={() => onPress(rowIndex, colIndex)} style={styles.cell}>
-                {cell == 'f' && <View style={styles.filledDot}/>}
-                {cell == 'e' && <View style={styles.emptyDot}/>}
-              </Pressable>
-            ))}
-          </View>
-        ))}
+      {board.map((row, rowIndex) => (
+        <View style={styles.row}>
+          {row.map((cell, colIndex) => (
+            <Pressable onPress={() => onPress(rowIndex, colIndex)} style={styles.cell}>
+              {cell == 'f' && <View style={styles.filledDot}/>}
+              {cell == 'e' && <View style={styles.emptyDot}/>}
+            </Pressable>
+          ))}
+        </View>
+      ))}
       </View>
       <View style={styles.selector}>
       {selectDot.map((row) => (
@@ -152,6 +189,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#66b2b2'
   },
   filledDot: {
+    width: '100%',
+    height: '100%',
+    borderRadius: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+
+    borderWidth: 4,
+    borderColor: 'white',
+    backgroundColor: '#006666'
+  },
+  wrongDot: {
     width: '100%',
     height: '100%',
     borderRadius: '100%',

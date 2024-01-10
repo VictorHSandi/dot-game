@@ -4,86 +4,107 @@ import React, { useState } from "react";
 import dot from './assets/dots.png'
 
 export default function App() {
-  
-  function checkSolution(board) {
-    for(let row = 0; row < board.length; row++) {
-      for (let col = 0; col < board[row].length; col++) {
-        if(board[row][col] == '') {
-          board[row][col] = 'f'; //dark dot
-          if(isValid(board, row, col, board.length/2,  board[row].length / 2) && checkSolution(board)) {
-            return true;
-          }
-          board[row][col] = ''; //backtrack
+  const [board, setMap] = useState([['f', 'f', 'e', 'e'], // row 1 temp test size
+      ['f', 'f', 'e', ''], // row 2
+      ['', 'e', '', ''], // row 3
+      ['', '', 'f', 'f']] // row 4
+      );
+  const [solutionBoard, setSolution] = useState([...board]);
 
-          board[row][col] = 'e'; //light dot
-          if(isValid(board, row, col, board.length/2,  board[row].length / 2) && checkSolution(board)) {
+  const [selectDot] = useState([
+  ['f','e']
+  ]);
+  const [currentDot, setCurrentDot] = useState('f');
+  
+  //win-algorithm ----------------------------------------
+  //recursive function to find possible solutions of board
+  function checkSolution(solutionBoard) { 
+    
+    for(let row = 0; row < solutionBoard.length; row++) {
+      for (let col = 0; col < solutionBoard[row].length; col++) {
+        if(solutionBoard[row][col] == '') {
+          solutionBoard[row][col] = 'f'; //dark dot
+          if(isValid(solutionBoard, row, col, solutionBoard.length/2,  solutionBoard[row].length / 2) && checkSolution(solutionBoard)) {
             return true;
           }
-          board[row][col] = ''; //backtrack
+
+          solutionBoard[row][col] = 'e'; //light dot
+          if(isValid(solutionBoard, row, col, solutionBoard.length/2,  solutionBoard[row].length / 2) && checkSolution(solutionBoard)) {
+            return true;
+          }
+          //if no solution can be found, return false
           return false;
         }
+        //if board is full, check if it is incorrect
+        else {
+            if(isValid(solutionBoard, row, col, solutionBoard.length/2, solutionBoard[row].length / 2) == false) {
+              return false;
+            }
+          }
+        }
       }
-    }
+    
     return true;
   };
-
-  function isValid(board, row, col, numDark, numLight) {
+  //check board is complete/valid
+  function isValid(solutionBoard, row, col, numDark, numLight) {
     //check row has equal dots
-    if(board[row].filter(cell => cell === 'f').length > numDark ||
-      board[row].filter(cell => cell === 'e').length > numLight) {
+    if(solutionBoard[row].filter(dotColor => dotColor == 'f').length > numDark ||
+    solutionBoard[row].filter(dotColor => dotColor == 'e').length > numLight) {
         return false;
       }
     //check column has equal dots
-    if(board.map(row => row[col]).filter(cell => cell === 'f').length > numDark ||
-    board.map(row => row[col]).filter(cell => cell === 'e').length > numLight) {
+    if(solutionBoard.map(row => row[col]).filter(dotColor => dotColor == 'f').length > numDark ||
+    solutionBoard.map(row => row[col]).filter(dotColor => dotColor == 'e').length > numLight) {
       return false;
     }
     return true;
   };
 
-//default board state
-const [board, setMap] = useState([
-      ['f', 'f', 'e', 'e'], // row 1 temp test size
-      ['f', 'f', 'e', ''], // row 2
-      ['', 'e', '', ''], // row 3
-      ['', '', 'f', 'f'], // row 4
-]);
+  const onPress = (rowIndex, colIndex) => {
+    //checks most recently placed dot.
+    setSolution((existingMap) => {
+      const solution = [...existingMap];
+      solution[rowIndex][colIndex] = currentDot;
+      if (checkSolution(solution)) {
+        console.log("Correct");
+        console.log("Solution: " + solution)
+        console.log("Board " + existingMap);
+        return solution; //update the solution....
+      }
+      else {
+        console.log("Incorrect");
+        console.log("Solution: " + solution)
+        console.log("Board " + existingMap);
+        return existingMap; //dont change anything?
+      }
+    });
+    setMap((existingMap) =>{
+      const updatedMap = [...existingMap];
+      updatedMap[rowIndex][colIndex] = currentDot;
+      return updatedMap;
+    });
+  };
 
-const reset = () => {
-  setMap(() => {
-    return([
-      ['f', 'f', 'e', 'e'], // row 1 temp test size
-      ['f', 'f', 'e', ''], // row 2
-      ['', 'e', '', ''], // row 3
-      ['', '', 'f', 'f'], // row 4
-    ]);
-  });
-};  
-
-const [selectDot] = useState([
-  ['f','e']
-]);
-
-const [currentDot, setCurrentDot] = useState('f');
-
-const onPress = (rowIndex, colIndex) => {
-
-  setMap((existingMap) =>{
-    const updatedMap = [...existingMap];
-    updatedMap[rowIndex][colIndex] = currentDot;
-    if(checkSolution(updatedMap.slice()) == true ) {
-      console.log("Correct")
-    }
-    else {
-      console.log("Incorrect")
-    }
-    console.log(board);
-    return updatedMap;
-
-    
-  });
-  
-};
+  const reset = () => {
+    setMap(() => {
+      return([
+        ['f', 'f', 'e', 'e'], // row 1 temp test size
+        ['f', 'f', 'e', ''], // row 2
+        ['', 'e', '', ''], // row 3
+        ['', '', 'f', 'f'], // row 4
+      ]);
+    });
+    //reset the solution board as well
+    setSolution(() => {
+      return([
+        ['f', 'f', 'e', 'e'], 
+        ['f', 'f', 'e', ''], 
+        ['', 'e', '', ''], 
+        ['', '', 'f', 'f'], 
+      ]);
+    });
+  };  
 
 const selectorPress = (currentDot) => {
   setCurrentDot(currentDot == "0" ? "f" : "e");
@@ -100,7 +121,7 @@ const selectorPress = (currentDot) => {
             <Pressable onPress={() => onPress(rowIndex, colIndex)} style={styles.cell}>
               {cell == 'f' && <View style={styles.filledDot}/>}
               {cell == 'e' && <View style={styles.emptyDot}/>}
-            </Pressable>
+              </Pressable>
           ))}
         </View>
       ))}
@@ -117,7 +138,7 @@ const selectorPress = (currentDot) => {
           </View>
         ))}
       </View>
-      {/* reset button for testing/clearing the board!! */}
+      {/* reset button */}
       <View style={styles.buttonContainer}>
         <Pressable 
         onPress={() => reset()} 

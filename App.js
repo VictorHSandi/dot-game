@@ -9,8 +9,11 @@ export default function App() {
       ['', 'e', '', ''], // row 3
       ['', '', 'f', 'f']] // row 4
       );
-  const [solutionBoard, setSolution] = useState([...board]);
-
+  const [solutionBoard, setSolution] = useState([['f', 'f', 'e', 'e'], // row 1 temp test size
+    ['f', 'f', 'e', ''], // row 2
+    ['', 'e', '', ''], // row 3
+    ['', '', 'f', 'f']] // row 4);
+  );
   const [selectDot] = useState([
   ['f','e']
   ]);
@@ -80,6 +83,7 @@ export default function App() {
       }
     });
     setMap((existingMap) =>{
+      console.log("set map")
       const updatedMap = [...existingMap];
       updatedMap[rowIndex][colIndex] = currentDot;
       return updatedMap;

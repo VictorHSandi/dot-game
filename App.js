@@ -1,9 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable } from 'react-native';
 import React, { useState } from "react";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { registerRootComponent } from 'expo';
 import dot from './assets/dots.png'
 
-export default function App() {
+function App({navigation}) {
   const [board, setMap] = useState([['f', 'f', 'e', 'e'], // row 1 temp test size
       ['f', 'f', 'e', ''], // row 2
       ['', 'e', '', ''], // row 3
@@ -156,12 +159,46 @@ const selectorPress = (currentDot) => {
   );
 }
 
+//home screen/menu stuff--------
+const Stack = createNativeStackNavigator();
+function myStack() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Home">
+        <Stack.Screen name="Home" component={Home} options={{ headerShown: false}} />
+        <Stack.Screen name="App" component={App} />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+//registerRootComponent sets myStack as the entry point of the program
+export default registerRootComponent(myStack)
+
+function Home({navigation}) {
+  return (
+    <View style={styles.homeScreen}>
+      <Text style={styles.text}>Dot Game</Text>
+      <Pressable 
+      onPress={() => navigation.navigate('App')}
+      style={styles.button}>
+        <Text>Load Game</Text>
+      </Pressable>
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#3a6b64',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  homeScreen: {
+    flex: 1,
+    backgroundColor: '#3a6b64',
+    flexDirection: 'column',
+    justifyContent:'center',
   },
   text: {
     fontSize: 40, 

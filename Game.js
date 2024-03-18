@@ -7,7 +7,7 @@ import dot from './assets/dots.png'
 
 //placeholder for all things handling the board/level
 //need to use the App.js for other stuff
-export default function Game() {
+export default function Game({navigation}) {
     const [board, setMap] = useState([['f', 'f', 'e', 'e'], // row 1 temp test size
     ['f', 'f', 'e', ''], // row 2
     ['', 'e', '', ''], // row 3
@@ -120,7 +120,7 @@ console.warn(currentDot);
 };
     return(
         <View style={styles.container}>
-        <Text style={styles.text}>Dot Game</Text>
+        <Text style={styles.text}>Level</Text>
         <View style={styles.map}>
         {board.map((row, rowIndex) => (
           <View style={styles.row}>

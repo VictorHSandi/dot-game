@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import  Homepage from './views/Homepage'
+import Game from './Game'
 import dot from './assets/dots.png'
 
 
@@ -13,8 +14,9 @@ export default function App() {
   const Stack = createNativeStackNavigator();
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Homepage">
-        <Stack.Screen name="Homepage" component={Homepage} />
+      <Stack.Navigator initialRouteName="Homepage" screenOptions={{headerShown: false}}>
+        <Stack.Screen name="Homepage" component={Homepage}/>
+        <Stack.Screen name="Game" component={Game}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -4,7 +4,18 @@ import { StyleSheet, Text, View, Pressable } from 'react-native';
 export default function Homepage() {
     return(
         <View>
-         <Text>Homepage</Text>
+         <Text style={styles.title}>Homepage</Text>
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    title: {
+        fontSize: 40,
+        fontFamily: 'Roboto',
+        color: '#1A1616'
+    },
+    container: {
+        backgroundColor: '#D9D9D9'
+    }
+});

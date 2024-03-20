@@ -1,6 +1,9 @@
-import { StyleSheet, Text, View, Pressable } from 'react-native';
+import { StyleSheet, Image, Text, View, Pressable } from 'react-native';
 import React, { useState } from "react";
 import { useFonts } from 'expo-font';
+import ArrowButton from '../components/ArrowButton'
+
+const { ArrowButtonLeft, ArrowButtonRight } = ArrowButton;
 
 export default function LevelMenu({navigation}) {
     //custom fonts
@@ -9,7 +12,7 @@ export default function LevelMenu({navigation}) {
     };
     const [isLoaded]= useFonts(customFonts);
     //keep track of what difficult is loaded atm (grey out arrows when needed)
-    const [loadedDifficulty] = useState(['easy', 'medium'])
+    const [loadedDifficulty] = useState(['easy', 'medium', 'hard'])
     //placeholder data (just level title and levels)
     const levelData = {
         difficulty: {
@@ -18,7 +21,8 @@ export default function LevelMenu({navigation}) {
             ],
             medium: [
                 {levelNums: ["1", "2", "3"]}
-            ]
+            ],
+            hard: [],
         }
     }
 
@@ -26,22 +30,15 @@ export default function LevelMenu({navigation}) {
     if(isLoaded) {
         return(
             <View style={styles.container}>
-                {/* <DifficultyHeader title={difficulty[0]}/> */}
-                {/* <View style={styles.levelsContainer}>
-              
-                    <View style={styles.levelsRows}>
-                        <LevelButton onPress={()=> navigation.navigate('Game')} title="1" style={styles.levelButton}></LevelButton>
-                        <LevelButton onPress={()=> navigation.navigate('Game')} title="2" style={styles.levelButton}></LevelButton>
-                        <LevelButton onPress={()=> navigation.navigate('Game')} title="2" style={styles.levelButton}></LevelButton>
-                        <LevelButton onPress={()=> navigation.navigate('Game')} title="2" style={styles.levelButton}></LevelButton>
-                    </View>
+               {/* header */}
+               <View style={styles.headerContainer}>
+                    <ArrowButtonLeft />
+                    <Text style={styles.title}>Mode</Text>
+                    <ArrowButtonRight />
+               </View>
                
-                    <View style={styles.levelsRows}>
-                        <LevelButton onPress={()=> navigation.navigate('Game')} title="2" style={styles.levelButton}></LevelButton>
-                        <LevelButton onPress={()=> navigation.navigate('Game')} title="2" style={styles.levelButton}></LevelButton>
-                    </View>
-                </View> */}
-                <View style={styles.levelsContainer}>
+               {/* load buttons */}
+                <View id='buttons' style={styles.levelsContainer}>
                     {levelsBuilder(levelData.difficulty.easy)}
                 </View>
             </View>
@@ -86,11 +83,14 @@ const LevelButton = ({title}) => {
         </Pressable>
     );
 };
+
+
 const styles = StyleSheet.create({
     title: {
         fontSize: 40,
         fontFamily: 'MadimiOne-Regular',
         color: '#1A1616',
+        
     },
     container: {
         flex: 1, 
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
         
     },
     levelsContainer: {
-        borderWidth: 2,
+        borderWidth: 3,
         borderColor: 'black',
         borderRadius: 20,
         flexDirection: 'column', 
@@ -110,6 +110,9 @@ const styles = StyleSheet.create({
         padding: 10,
         height: 500,
         width: 300
+    },
+    headerContainer: {
+        flexDirection: 'row',
     },
     levelsRows: {
         flexDirection: 'row',
@@ -133,5 +136,5 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         fontFamily: 'MadimiOne-Regular'
-    },
-})
+    }, 
+});

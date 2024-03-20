@@ -15,14 +15,14 @@ export default function LevelMenu({navigation}) {
                 <Text style={styles.title}>Level menu</Text>
                 <View style={styles.levelsContainer}>
                     {/* load in the levels from json and create appropriate buttons */}
-                    <LevelButton onPress={()}>
+                    <LevelButton onPress={()=> navigation.navigate('Game')} title="1" style={styles.levelButton}></LevelButton>
                 </View>
             </View>
         );
     }
 }
 
-//reuseable component for the level buttons
+{/* //reuseable component for the level buttons */}
 const LevelButton = ({onPress, title}) => {
     return(
         <Pressable style={styles.levelButton} onPress={onPress}>
@@ -57,10 +57,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#1A1616',
         justifyContent: 'center',
         alignItems: 'center',
+        margin: 10,
+        width: 50,
+        height: 50,
     },
     levelText: {
         color: 'white',
-        fontSize: 10,
+        fontSize: 20,
         fontWeight: 'bold',
+        fontFamily: 'MadimiOne-Regular'
     },
 })

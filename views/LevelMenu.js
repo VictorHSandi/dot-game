@@ -8,14 +8,25 @@ export default function LevelMenu({navigation}) {
         'MadimiOne-Regular': require('../assets/font/MadimiOne-Regular.ttf')
     };
     const [isLoaded]= useFonts(customFonts);
-    const [difficulty] = useState(['Easy', 'Medium', 'Hard']); //placeholder titles
-    const [levels] = useState(['1', '2', '3']); //add placeholder JSON here later
+    //keep track of what difficult is loaded atm (grey out arrows when needed)
+    const [loadedDifficulty] = useState(['easy', 'medium'])
+    //placeholder data (just level title and levels)
+    const levelData = {
+        difficulty: {
+            easy: [
+                {levelNums: ["1", "2", "3", "4", "5", "6", "7", "8"]}
+            ],
+            medium: [
+                {levelNums: ["1", "2", "3"]}
+            ]
+        }
+    }
 
     //load view
     if(isLoaded) {
         return(
             <View style={styles.container}>
-                <Text style={styles.title}>Difficulty</Text>
+                {/* <DifficultyHeader title={difficulty[0]}/> */}
                 <View style={styles.levelsContainer}>
                     {/* TODO: automate this so that when each row is full create a new row component */}
                     <View style={styles.levelsRows}>
@@ -34,13 +45,20 @@ export default function LevelMenu({navigation}) {
         );
     }
 }
-//TODO: method to create components based on levels
-
-//header with buttons to change modes
-const DifficultyHeader = ({onPress, title}) => {
-    
+//TODO: header with buttons to change modes
+export const DifficultyHeader = ({title}) => {
+    return(
+        <View>
+            <Text style={styles.title}>{title}</Text>
+        </View>
+    );
 }
-{/* //reuseable component for the level buttons */}
+//TODO: load level buttons
+export const levelBuilder = (level) => {
+ 
+}
+
+
 const LevelButton = ({onPress, title}) => {
     return(
         <Pressable style={styles.levelButton} onPress={onPress}>

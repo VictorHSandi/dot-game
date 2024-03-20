@@ -27,41 +27,61 @@ export default function LevelMenu({navigation}) {
         return(
             <View style={styles.container}>
                 {/* <DifficultyHeader title={difficulty[0]}/> */}
-                <View style={styles.levelsContainer}>
-                    {/* TODO: automate this so that when each row is full create a new row component */}
+                {/* <View style={styles.levelsContainer}>
+              
                     <View style={styles.levelsRows}>
                         <LevelButton onPress={()=> navigation.navigate('Game')} title="1" style={styles.levelButton}></LevelButton>
                         <LevelButton onPress={()=> navigation.navigate('Game')} title="2" style={styles.levelButton}></LevelButton>
                         <LevelButton onPress={()=> navigation.navigate('Game')} title="2" style={styles.levelButton}></LevelButton>
                         <LevelButton onPress={()=> navigation.navigate('Game')} title="2" style={styles.levelButton}></LevelButton>
                     </View>
-                    {/* load in the levels from json and create appropriate buttons */}
+               
                     <View style={styles.levelsRows}>
                         <LevelButton onPress={()=> navigation.navigate('Game')} title="2" style={styles.levelButton}></LevelButton>
                         <LevelButton onPress={()=> navigation.navigate('Game')} title="2" style={styles.levelButton}></LevelButton>
                     </View>
+                </View> */}
+                <View style={styles.levelsContainer}>
+                    {levelsBuilder(levelData.difficulty.easy)}
                 </View>
             </View>
         );
     }
 }
-//TODO: header with buttons to change modes
-export const DifficultyHeader = ({title}) => {
+//Build all the level buttons
+export const LevelsEntry = ({ levelNum = []}) => {
+    console.log(levelNum)
     return(
-        <View>
-            <Text style={styles.title}>{title}</Text>
-        </View>
+        <>
+            {levelNum.map((num) => (
+                <LevelButton title={num}/>
+            ))}
+        </>
     );
 }
-//TODO: load level buttons
-export const levelBuilder = (level) => {
- 
+//Load all the levels form the JSON and create a LevelsEntry component
+export const levelsBuilder = (levels) => {
+    const rows = [];
+    //create four buttons per row
+    for (let i = 0; i < levels.length; i += 4) {
+        const rowLevels = levels.slice(i, i+4);
+        //create row
+        const row = (
+            <View style={styles.levelsRows}>
+                {rowLevels.map((levels) => (
+                    <LevelsEntry levelNum={levels.levelNums} />
+                ))}
+            </View>
+        );
+        rows.push(row);
+    }
+    return rows;
 }
 
-
-const LevelButton = ({onPress, title}) => {
+//Todo: add OnPress action
+const LevelButton = ({title}) => {
     return(
-        <Pressable style={styles.levelButton} onPress={onPress}>
+        <Pressable style={styles.levelButton}>
             <Text style={styles.levelText}>{title}</Text>
         </Pressable>
     );

@@ -16,7 +16,7 @@ export default function Homepage({navigation}) {
         return(
             <View style={styles.container}>
                 <Text style={styles.title}>Dot Game</Text>
-                <Pressable onPress={() => navigation.navigate('Game')}style={styles.button} >
+                <Pressable onPress={() => navigation.navigate('LevelMenu')}style={styles.button} >
                     <Text style={styles.text}>
                         Play
                     </Text>
@@ -24,12 +24,6 @@ export default function Homepage({navigation}) {
                 <Pressable style={styles.button}>
                     <Text style={styles.text}>
                         Settings
-                    </Text>
-                </Pressable>
-                {/* For testing */}
-                <Pressable onPress={()=> navigation.navigate('LevelMenu')} style={styles.button}>
-                    <Text style={styles.text}>
-                        Level Menu
                     </Text>
                 </Pressable>
             </View>

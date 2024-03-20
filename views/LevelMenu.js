@@ -14,8 +14,18 @@ export default function LevelMenu({navigation}) {
             <View style={styles.container}>
                 <Text style={styles.title}>Level menu</Text>
                 <View style={styles.levelsContainer}>
+                    {/* TODO: automate this so that when each row is full create a new row component */}
+                    <View style={styles.levelsRows}>
+                        <LevelButton onPress={()=> navigation.navigate('Game')} title="1" style={styles.levelButton}></LevelButton>
+                        <LevelButton onPress={()=> navigation.navigate('Game')} title="2" style={styles.levelButton}></LevelButton>
+                        <LevelButton onPress={()=> navigation.navigate('Game')} title="2" style={styles.levelButton}></LevelButton>
+                        <LevelButton onPress={()=> navigation.navigate('Game')} title="2" style={styles.levelButton}></LevelButton>
+                    </View>
                     {/* load in the levels from json and create appropriate buttons */}
-                    <LevelButton onPress={()=> navigation.navigate('Game')} title="1" style={styles.levelButton}></LevelButton>
+                    <View style={styles.levelsRows}>
+                        <LevelButton onPress={()=> navigation.navigate('Game')} title="2" style={styles.levelButton}></LevelButton>
+                        <LevelButton onPress={()=> navigation.navigate('Game')} title="2" style={styles.levelButton}></LevelButton>
+                    </View>
                 </View>
             </View>
         );
@@ -48,18 +58,27 @@ const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: 'black',
         borderRadius: 20,
-        alignItems: 'center',
+        flexDirection: 'column', 
+        margin: 20,
+        padding: 10,
         height: 500,
         width: 300
+    },
+    levelsRows: {
+        flexDirection: 'row',
+        alignItems: 'flex-start',
+        flexWrap: 'wrap',
+        marginBottom: 10, 
+        width: '100%'
     },
     levelButton: {
         borderRadius: 50,
         backgroundColor: '#1A1616',
         justifyContent: 'center',
         alignItems: 'center',
-        margin: 10,
-        width: 50,
-        height: 50,
+        margin: 5,
+        width: 55,
+        height: 55,
     },
     levelText: {
         color: 'white',

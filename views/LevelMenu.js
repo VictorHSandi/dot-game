@@ -1,4 +1,5 @@
 import { StyleSheet, Text, View, Pressable } from 'react-native';
+import React, { useState } from "react";
 import { useFonts } from 'expo-font';
 
 export default function LevelMenu({navigation}) {
@@ -6,13 +7,15 @@ export default function LevelMenu({navigation}) {
     let customFonts = {
         'MadimiOne-Regular': require('../assets/font/MadimiOne-Regular.ttf')
     };
-    const[isLoaded]= useFonts(customFonts);
+    const [isLoaded]= useFonts(customFonts);
+    const [difficulty] = useState(['Easy', 'Medium', 'Hard']); //placeholder titles
+    const [levels] = useState(['1', '2', '3']); //add placeholder JSON here later
 
     //load view
     if(isLoaded) {
         return(
             <View style={styles.container}>
-                <Text style={styles.title}>Level menu</Text>
+                <Text style={styles.title}>Difficulty</Text>
                 <View style={styles.levelsContainer}>
                     {/* TODO: automate this so that when each row is full create a new row component */}
                     <View style={styles.levelsRows}>
@@ -31,7 +34,12 @@ export default function LevelMenu({navigation}) {
         );
     }
 }
+//TODO: method to create components based on levels
 
+//header with buttons to change modes
+const DifficultyHeader = ({onPress, title}) => {
+    
+}
 {/* //reuseable component for the level buttons */}
 const LevelButton = ({onPress, title}) => {
     return(

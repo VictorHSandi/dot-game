@@ -26,6 +26,12 @@ export default function Homepage({navigation}) {
                         Settings
                     </Text>
                 </Pressable>
+                {/* For testing */}
+                <Pressable onPress={()=> navigation.navigate('LevelMenu')} style={styles.button}>
+                    <Text style={styles.text}>
+                        Level Menu
+                    </Text>
+                </Pressable>
             </View>
         );
     } 

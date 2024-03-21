@@ -12,7 +12,11 @@ export default function LevelMenu({navigation}) {
     };
     const [isLoaded]= useFonts(customFonts);
     //keep track of what difficult is loaded atm (grey out arrows when needed)
-    const [header] = useState(['easy', 'medium', 'hard'])
+    const [header] = useState(['Easy', 'Medium', 'Hard'])
+    const [diff, setDiff] = useState('Easy');
+    const [greyedLeft, setGreyedLeft] = useState(true);
+    const [greyedRight, setGreyedRight] = useState(false);
+
     //placeholder data (just level title and levels)
     const levelData = {
         difficulty: {
@@ -26,15 +30,55 @@ export default function LevelMenu({navigation}) {
         }
     }
 
+    //Cycle through difficulties: 
+    //todo: makes states for each difficulty and the correct arrow color for each
+    //to simplify this 
+    const setHeader = (direction) => {
+        if (direction == "left") {
+            console.log("Left arrow clicked")
+            switch(diff){
+                case 'Easy':
+                    
+                    break;
+                case 'Medium':
+                    setGreyedLeft(true);
+                    setDiff('Easy');
+                    break;
+                case 'Hard':
+                    setGreyedRight(false);
+                    setDiff('Medium');
+                default:
+                    break;
+            }
+        }
+        else if(direction == "right") {
+            console.log("Right arrow clicked")
+            switch(diff){
+                case 'Easy':
+                    setDiff('Medium');
+                    setGreyedLeft(false);
+                    break;
+                case 'Medium':
+                    setDiff('Hard');
+                    setGreyedRight(true);
+                    break;
+                case 'Hard':
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
     //load view
     if(isLoaded) {
         return(
             <View style={styles.container}>
                {/* header */}
                <View style={styles.headerContainer}>
-                    <ArrowButtonLeft greyed={false}/>
-                    <Text style={styles.title}>Medium</Text>
-                    <ArrowButtonRight greyed={false}/>
+                    <ArrowButtonLeft greyed={greyedLeft} onPress={() => setHeader("left")}/>
+                    <Text style={styles.title}>{diff}</Text>
+                    <ArrowButtonRight greyed={greyedRight} onPress={() => setHeader("right")}/>
                </View>
                
                {/* load buttons */}
@@ -45,10 +89,7 @@ export default function LevelMenu({navigation}) {
         );
     }
 }
-//Cycle through difficulties:
-const setHeader = () => {
 
-}
 //Build all the level buttons
 export const LevelsEntry = ({ levelNum = []}) => {
     console.log(levelNum)
@@ -80,7 +121,7 @@ export const levelsBuilder = (levels) => {
 }
 
 //Todo: add OnPress action
-const LevelButton = ({title}) => {
+export const LevelButton = ({title}) => {
     return(
         <Pressable style={styles.levelButton}>
             <Text style={styles.levelText}>{title}</Text>
@@ -140,7 +181,7 @@ const styles = StyleSheet.create({
     },
     levelText: {
         color: 'white',
-        fontSize: 20,
+        fontSize: 25,
         fontWeight: 'bold',
         fontFamily: 'MadimiOne-Regular'
     }, 

@@ -1,10 +1,10 @@
 import {StyleSheet, Image, Pressable} from 'react-native'
 
 export default {
-    ArrowButtonLeft: function({greyed}) {
+    ArrowButtonLeft: function({greyed, onPress}) {
         if(greyed) {
             return(
-                <Pressable>
+                <Pressable onPress={onPress}>
                     <Image 
                     style={styles.buttonLGrey}
                     source={require('../assets/backarrow.png')}/>
@@ -13,7 +13,7 @@ export default {
         }
         else{
             return(
-                <Pressable>
+                <Pressable onPress={onPress}>
                     <Image 
                     style={styles.buttonLeft}
                     source={require('../assets/backarrow.png')}/>
@@ -21,10 +21,10 @@ export default {
             );
         }
     },
-    ArrowButtonRight: function ({greyed}) {
+    ArrowButtonRight: function ({greyed, onPress}) {
         if(greyed) {
             return(
-                <Pressable>
+                <Pressable onPress={onPress}>
                     <Image 
                     style={styles.buttonRGrey}
                     source={require('../assets/backarrow.png')}/>
@@ -33,7 +33,7 @@ export default {
         }
         else{
             return(
-                <Pressable>
+                <Pressable onPress={onPress}>
                     <Image 
                     style={styles.buttonRight}
                     source={require('../assets/backarrow.png')}/>

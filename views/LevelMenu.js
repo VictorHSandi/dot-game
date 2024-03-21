@@ -69,6 +69,11 @@ export default function LevelMenu({navigation}) {
             }
         }
     }
+    //get difficulty level from JSON based on selected Mode
+    const getDifficultyData = () => {
+        console.log(diff.toLowerCase())
+        return levelData.difficulty[diff.toLowerCase()];
+    };
 
     //load view
     if(isLoaded) {
@@ -83,7 +88,7 @@ export default function LevelMenu({navigation}) {
                
                {/* load buttons */}
                 <View id='buttons' style={styles.levelsContainer}>
-                    {levelsBuilder(levelData.difficulty.easy)}
+                    {levelsBuilder(getDifficultyData())}
                 </View>
             </View>
         );

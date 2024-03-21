@@ -12,7 +12,7 @@ export default function LevelMenu({navigation}) {
     };
     const [isLoaded]= useFonts(customFonts);
     //keep track of what difficult is loaded atm (grey out arrows when needed)
-    const [loadedDifficulty] = useState(['easy', 'medium', 'hard'])
+    const [header] = useState(['easy', 'medium', 'hard'])
     //placeholder data (just level title and levels)
     const levelData = {
         difficulty: {
@@ -32,9 +32,9 @@ export default function LevelMenu({navigation}) {
             <View style={styles.container}>
                {/* header */}
                <View style={styles.headerContainer}>
-                    <ArrowButtonLeft />
-                    <Text style={styles.title}>Mode</Text>
-                    <ArrowButtonRight />
+                    <ArrowButtonLeft greyed={false}/>
+                    <Text style={styles.title}>Medium</Text>
+                    <ArrowButtonRight greyed={false}/>
                </View>
                
                {/* load buttons */}
@@ -44,6 +44,10 @@ export default function LevelMenu({navigation}) {
             </View>
         );
     }
+}
+//Cycle through difficulties:
+const setHeader = () => {
+
 }
 //Build all the level buttons
 export const LevelsEntry = ({ levelNum = []}) => {
@@ -90,7 +94,8 @@ const styles = StyleSheet.create({
         fontSize: 40,
         fontFamily: 'MadimiOne-Regular',
         color: '#1A1616',
-        
+        marginLeft: 25,
+        marginRight: 25,
     },
     container: {
         flex: 1, 
@@ -106,13 +111,15 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         flexDirection: 'column', 
         alignItems: 'center',
-        margin: 20,
+        margin: 10,
         padding: 10,
         height: 500,
         width: 300
     },
     headerContainer: {
         flexDirection: 'row',
+        alignIems: 'center',
+        justifyContent: 'space-between',
     },
     levelsRows: {
         flexDirection: 'row',

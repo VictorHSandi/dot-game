@@ -2,6 +2,7 @@ import { StyleSheet, Image, Text, View, Pressable } from 'react-native';
 import React, { useState } from "react";
 import { useFonts } from 'expo-font';
 import ArrowButton from '../components/ArrowButton'
+import LevelButton from '../components/LevelButton'
 
 const { ArrowButtonLeft, ArrowButtonRight } = ArrowButton;
 
@@ -38,7 +39,6 @@ export default function LevelMenu({navigation}) {
             console.log("Left arrow clicked")
             switch(diff){
                 case 'Easy':
-                    
                     break;
                 case 'Medium':
                     setGreyedLeft(true);
@@ -125,15 +125,6 @@ export const levelsBuilder = (levels) => {
     return rows;
 }
 
-//Todo: add OnPress action
-export const LevelButton = ({title}) => {
-    return(
-        <Pressable style={styles.levelButton}>
-            <Text style={styles.levelText}>{title}</Text>
-        </Pressable>
-    );
-};
-
 
 const styles = StyleSheet.create({
     title: {
@@ -174,20 +165,4 @@ const styles = StyleSheet.create({
         marginBottom: 10, 
         width: '100%'
     },
-    levelButton: {
-        borderRadius: 50,
-        backgroundColor: '#1A1616',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginRight: 8,
-        margin: 5,
-        width: 55,
-        height: 55,
-    },
-    levelText: {
-        color: 'white',
-        fontSize: 25,
-        fontWeight: 'bold',
-        fontFamily: 'MadimiOne-Regular'
-    }, 
 });

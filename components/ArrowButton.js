@@ -1,10 +1,10 @@
-import {StyleSheet, Image, Pressable} from 'react-native'
+import {StyleSheet, Image, Pressable, TouchableHighlight} from 'react-native'
 
 export default {
     ArrowButtonLeft: function({greyed, onPress}) {
         if(greyed) {
             return(
-                <Pressable onPress={onPress}>
+                <Pressable onPress={onPress} underlayColor="3A6B64">
                     <Image 
                     style={styles.buttonLGrey}
                     source={require('../assets/backarrow.png')}/>
